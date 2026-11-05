@@ -1,0 +1,170 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
+function formatDate(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+export default function BookingBar() {
+  const router = useRouter();
+
+  const [arrival, setArrival] = useState("");
+  const [departure, setDeparture] = useState("");
+  const [guests, setGuests] = useState("1");
+  const [rooms, setRooms] = useState("1");
+  const [promo, setPromo] = useState("");
+  const [error, setError] = useState("");
+
+  const [today, setToday] = useState("");
+
+  useEffect(() => {
+    setToday(formatDate(new Date()));
+  }, []);
+
+  function checkAvailability(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    if (!arrival || !departure || departure <= arrival) {
+      setError("Departure must be after arrival.");
+      return;
+    }
+
+    setError("");
+
+    const params = new URLSearchParams({
+      arrival,
+      departure,
+      guests,
+      rooms,
+    });
+
+    if (promo.trim()) {
+      params.set("promo", promo.trim());
+    }
+
+    router.push(`/apartments?${params.toString()}`);
+  }
+
+  return (
+    <form
+      onSubmit={checkAvailability}
+      className="relative z-30 mx-auto grid w-full max-w-[1480px] grid-cols-1 items-end gap-5 bg-white px-6 py-5 text-[#303b3b] shadow-[0_12px_22px_rgba(0,0,0,0.2)] sm:grid-cols-2 lg:grid-cols-4 lg:gap-7 lg:px-10"
+    >
+      <div className="flex min-w-0 flex-col gap-2">
+        <label
+          htmlFor="arrival"
+          className="text-sm text-gray-500"
+        >
+          Arrival Date
+        </label>
+
+        <input
+          id="arrival"
+          type="date"
+          required
+          min={today}
+          value={arrival}
+          onChange={(e) => {
+            setArrival(e.target.value);
+            setError("");
+          }}
+          className="h-11 w-full min-w-0 border-b border-gray-700 bg-transparent text-sm outline-none focus:border-[#008f87]"
+        />
+      </div>
+
+      <div className="flex min-w-0 flex-col gap-2">
+        <label
+          htmlFor="departure"
+          className="text-sm text-gray-500"
+        >
+          Departure Date
+        </label>
+
+        <input
+          id="departure"
+          type="date"
+          required
+          min={arrival || today}
+          value={departure}
+          onChange={(e) => {
+            setDeparture(e.target.value);
+            setError("");
+          }}
+          className="h-11 w-full min-w-0 border-b border-gray-700 bg-transparent text-sm outline-none focus:border-[#008f87]"
+        />
+      </div>
+
+      <div className="flex min-w-0 flex-col gap-2">
+        <span className="text-sm text-gray-500">
+          Occupancy
+        </span>
+
+        <div className="flex h-11 items-center gap-2 border-b border-gray-700">
+          <select
+            aria-label="Number of rooms"
+            value={rooms}
+            onChange={(e) => setRooms(e.target.value)}
+            className="min-w-0 flex-1 bg-transparent text-sm outline-none"
+          >
+            {[1, 2, 3, 4, 5].map((n) => (
+              <option key={n} value={n}>
+                {n} {n === 1 ? "Room" : "Rooms"}
+              </option>
+            ))}
+          </select>
+
+          <span className="text-gray-400">|</span>
+
+          <select
+            aria-label="Number of guests"
+            value={guests}
+            onChange={(e) => setGuests(e.target.value)}
+            className="min-w-0 flex-1 bg-transparent text-sm outline-none"
+          >
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+              <option key={n} value={n}>
+                {n} {n === 1 ? "Guest" : "Guests"}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div className="flex min-w-0 flex-col gap-1">
+        <label
+          htmlFor="promo"
+          className="text-sm text-[#265186]"
+        >
+          Have a promotion code?
+        </label>
+
+        <input
+          id="promo"
+          type="text"
+          value={promo}
+          onChange={(e) => setPromo(e.target.value)}
+          placeholder="Optional promo code"
+          className="h-7 w-full border-b border-gray-200 bg-transparent text-xs outline-none focus:border-[#008f87]"
+        />
+
+        <button
+          type="submit"
+          className="mt-1 flex h-12 w-full items-center justify-center border-2 border-[#008f87] bg-white px-3 text-xs font-semibold tracking-[0.2em] text-[#008f87] transition-all duration-300 hover:bg-[#008f87] hover:text-white"
+        >
+          CHECK AVAILABILITY
+        </button>
+      </div>
+
+      {error && (
+        <p role="alert" className="text-sm text-red-600 lg:col-span-4">
+          {error}
+        </p>
+      )}
+    </form>
+  );
+}

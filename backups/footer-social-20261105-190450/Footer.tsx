@@ -1,0 +1,269 @@
+import Link from "next/link";
+import {
+  Globe,
+  Camera,
+  Play,
+  Music2,
+  MapPin,
+  Mail,
+  CalendarDays,
+  ArrowUpRight,
+  Check,
+} from "lucide-react";
+
+// Add real business information when available.
+const contact = {
+  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "",
+  phone: process.env.NEXT_PUBLIC_CONTACT_PHONE || "",
+  address: "",
+  mapsUrl: "",
+};
+
+// Add verified Xclusive Apartment social media links.
+// Empty links are not displayed.
+const socialLinks = [
+  {
+    name: "Facebook",
+    url: "",
+    icon: Globe,
+    color: "#D6A859",
+  },
+  {
+    name: "Instagram",
+    url: "",
+    icon: Camera,
+    color: "#FFFFFF",
+  },
+  {
+    name: "YouTube",
+    url: "",
+    icon: Play,
+    color: "#FFFFFF",
+  },
+  {
+    name: "TikTok",
+    url: "",
+    icon: Music2,
+    color: "#FFFFFF",
+  },
+].filter((social) => social.url.startsWith("https://"));
+
+const benefits = [
+  "Comfortable accommodation",
+  "Elegant living spaces",
+  "Relaxing atmosphere",
+  "A welcoming experience",
+];
+
+export default function Footer() {
+  return (
+    <footer
+      id="footer"
+      className="bg-[#00443e] text-white"
+    >
+      <div className="mx-auto max-w-[1600px] px-6 sm:px-10 lg:px-16">
+
+        {/* Top border */}
+        <div className="border-t border-white/20" />
+
+        {/* Main footer columns */}
+        <div className="grid grid-cols-1 gap-x-10 gap-y-14 py-16 sm:grid-cols-2 sm:py-20 lg:grid-cols-[1.1fr_1.25fr_1fr_0.85fr] lg:gap-12 lg:py-24">
+
+          {/* Reservation */}
+          <div>
+            <h2 className="mb-8 font-serif text-[30px] font-normal leading-tight sm:text-[33px]">
+              Reservation
+            </h2>
+
+            <div className="space-y-4 text-[15px] leading-7 text-white/85 sm:text-[17px]">
+
+              {contact.phone && (
+                <a
+                  href={`tel:${contact.phone.replace(/[^\d+]/g, "")}`}
+                  className="block transition-colors hover:text-[#d6b17c]"
+                >
+                  {contact.phone}
+                </a>
+              )}
+
+              {contact.email && (
+                <a
+                  href={`mailto:${contact.email}`}
+                  className="flex items-center gap-3 break-all transition-colors hover:text-[#d6b17c]"
+                >
+                  <Mail size={18} aria-hidden="true" />
+                  {contact.email}
+                </a>
+              )}
+
+              <p>
+                For reservations and accommodation
+                enquiries, our team is here to help.
+              </p>
+
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 text-white transition-all hover:gap-3 hover:text-[#d6b17c]"
+              >
+                Contact our team
+                <ArrowUpRight
+                  size={17}
+                  aria-hidden="true"
+                />
+              </Link>
+
+              <div className="pt-3">
+                <Link
+                  href="/apartments"
+                  className="inline-flex items-center gap-3 border border-white/40 px-5 py-3 text-xs font-semibold uppercase tracking-[0.17em] transition-all duration-300 hover:border-[#d6b17c] hover:bg-[#d6b17c] hover:text-[#00443e]"
+                >
+                  <CalendarDays
+                    size={17}
+                    aria-hidden="true"
+                  />
+                  Book Your Stay
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Location */}
+          <div>
+            <h2 className="mb-8 font-serif text-[30px] font-normal leading-tight sm:text-[33px]">
+              Our Location
+            </h2>
+
+            <div className="space-y-5 text-[15px] leading-8 text-white/85 sm:text-[17px]">
+              {contact.address ? (
+                <p className="flex items-start gap-3">
+                  <MapPin
+                    size={20}
+                    className="mt-1 shrink-0 text-[#d6b17c]"
+                    aria-hidden="true"
+                  />
+                  {contact.address}
+                </p>
+              ) : (
+                <p>
+                  Contact us for our exact location
+                  and directions to Xclusive Apartment.
+                </p>
+              )}
+
+              {contact.mapsUrl ? (
+                <a
+                  href={contact.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 transition-colors hover:text-[#d6b17c]"
+                >
+                  Get Directions
+                  <ArrowUpRight
+                    size={17}
+                    aria-hidden="true"
+                  />
+                </a>
+              ) : (
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 transition-colors hover:text-[#d6b17c]"
+                >
+                  Location Enquiries
+                  <ArrowUpRight
+                    size={17}
+                    aria-hidden="true"
+                  />
+                </Link>
+              )}
+            </div>
+          </div>
+
+          {/* Why choose us */}
+          <div>
+            <h2 className="mb-8 font-serif text-[30px] font-normal leading-tight sm:text-[33px]">
+              Why Choose Us
+            </h2>
+
+            <ul className="space-y-5">
+              {benefits.map((benefit) => (
+                <li
+                  key={benefit}
+                  className="flex items-start gap-3 text-[15px] leading-7 text-white/85 sm:text-[16px]"
+                >
+                  <Check
+                    size={19}
+                    strokeWidth={1.6}
+                    className="mt-1 shrink-0 text-[#d6b17c]"
+                    aria-hidden="true"
+                  />
+                  <span>{benefit}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Social media */}
+          <div>
+            <h2 className="mb-8 font-serif text-[30px] font-normal leading-tight sm:text-[33px]">
+              Follow Us :
+            </h2>
+
+            {socialLinks.length > 0 ? (
+              <div className="flex flex-wrap gap-3">
+                {socialLinks.map((social) => {
+                  const Icon = social.icon;
+
+                  return (
+                    <a
+                      key={social.name}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Xclusive Apartment on ${social.name}`}
+                      title={social.name}
+                      className="group flex h-[54px] w-[54px] items-center justify-center bg-white text-[#008f87] transition-all duration-300 hover:-translate-y-1 hover:bg-[#d6a859] hover:text-white hover:shadow-xl"
+                    >
+                      <Icon
+                        size={22}
+                        strokeWidth={1.9}
+                        aria-hidden="true"
+                      />
+                    </a>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="text-[15px] leading-7 text-white/75">
+                Our official social media profiles
+                will be available here.
+              </p>
+            )}
+
+            <p className="mt-8 text-sm leading-7 text-white/70">
+              Discover more about Xclusive Apartment,
+              our accommodation and experiences.
+            </p>
+          </div>
+        </div>
+
+        {/* Bottom divider */}
+        <div className="border-t border-white/20" />
+
+        {/* Copyright */}
+        <div className="flex flex-col gap-5 py-9 text-[14px] text-white/85 sm:flex-row sm:items-center sm:justify-between sm:py-12 sm:text-[16px]">
+          <p>
+            Copyright © 2026 Xclusive Apartment.
+            All rights reserved.
+          </p>
+
+          <p>
+            Designed & Developed for{" "}
+            <span className="font-semibold text-[#d6b17c]">
+              Xclusive Apartment
+            </span>
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}

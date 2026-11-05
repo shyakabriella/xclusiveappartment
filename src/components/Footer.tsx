@@ -1,0 +1,257 @@
+import { FaFacebookF, FaInstagram } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { SiTiktok } from "react-icons/si";
+import Link from "next/link";
+import {
+  Phone,
+  Mail,
+  MapPin,
+  CalendarDays,
+  ArrowUpRight,
+  Check,
+} from "lucide-react";
+
+const email =
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL ||
+  "Exclusiveapartmentkigali@gmail.com";
+
+const phone =
+  process.env.NEXT_PUBLIC_CONTACT_PHONE ||
+  "+250781896814";
+
+// Configure real profile URLs when available.
+const socials = [
+  {
+    name: "Facebook",
+    url: process.env.NEXT_PUBLIC_FACEBOOK_URL || "",
+    icon: FaFacebookF,
+  },
+  {
+    name: "TikTok",
+    url: process.env.NEXT_PUBLIC_TIKTOK_URL || "",
+    icon: SiTiktok,
+  },
+  {
+    name: "Instagram",
+    url: process.env.NEXT_PUBLIC_INSTAGRAM_URL || "",
+    icon: FaInstagram,
+  },
+  {
+    name: "Twitter / X",
+    url: process.env.NEXT_PUBLIC_TWITTER_URL || "",
+    icon: FaXTwitter,
+  },
+];
+
+const benefits = [
+  "Comfortable accommodation",
+  "Elegant living spaces",
+  "Relaxing atmosphere",
+  "Welcoming hospitality",
+];
+
+export default function Footer() {
+  return (
+    <footer className="bg-[#00443e] text-white">
+      <div className="mx-auto max-w-[1600px] px-6 sm:px-10 lg:px-16">
+        <div className="border-t border-white/20" />
+
+        <div className="grid grid-cols-1 gap-12 py-16 sm:grid-cols-2 sm:py-20 lg:grid-cols-4 lg:gap-10 lg:py-24">
+
+          {/* RESERVATION */}
+          <div>
+            <h2 className="mb-8 font-serif text-[30px] sm:text-[33px]">
+              Reservation
+            </h2>
+
+            <div className="space-y-5 text-[15px] leading-7 text-white/85 sm:text-[17px]">
+
+              <a
+                href={`tel:${phone}`}
+                className="flex items-start gap-3 transition-colors hover:text-[#d6b17c]"
+              >
+                <Phone
+                  size={19}
+                  className="mt-1 shrink-0"
+                  aria-hidden="true"
+                />
+                <span>+250 781 896 814</span>
+              </a>
+
+              <a
+                href={`mailto:${email}`}
+                className="flex items-start gap-3 break-all transition-colors hover:text-[#d6b17c]"
+              >
+                <Mail
+                  size={19}
+                  className="mt-1 shrink-0"
+                  aria-hidden="true"
+                />
+                <span>{email}</span>
+              </a>
+
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 transition-colors hover:text-[#d6b17c]"
+              >
+                Contact Our Team
+                <ArrowUpRight
+                  size={17}
+                  aria-hidden="true"
+                />
+              </Link>
+
+              <div className="pt-3">
+                <Link
+                  href="/apartments"
+                  className="inline-flex items-center gap-3 border border-white/40 px-5 py-3 text-xs font-semibold uppercase tracking-[0.17em] transition-all duration-300 hover:border-[#d6b17c] hover:bg-[#d6b17c] hover:text-[#00443e]"
+                >
+                  <CalendarDays
+                    size={17}
+                    aria-hidden="true"
+                  />
+                  Book Your Stay
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* LOCATION */}
+          <div>
+            <h2 className="mb-8 font-serif text-[30px] sm:text-[33px]">
+              Our Location
+            </h2>
+
+            <div className="flex items-start gap-3 text-[16px] leading-8 text-white/85">
+              <MapPin
+                size={21}
+                className="mt-1 shrink-0 text-[#d6b17c]"
+                aria-hidden="true"
+              />
+
+              <div>
+                <p className="font-medium text-white">
+                  Xclusive Apartments
+                </p>
+
+                <address className="mt-2 not-italic">
+                  2 KK 355 St
+                  <br />
+                  Kigali, Rwanda
+                </address>
+
+                <a
+                  href={"https://www.google.com/maps/dir//Xclusive+apartments,+2+KK+355+St,+Kigali/@-1.9297706,30.1272444,11z/data=!4m8!4m7!1m0!1m5!1m1!1s0x19dca790a3a33107:0xdb8d7d6bf0d3f2fd!2m2!1d30.1199035!2d-1.9814077"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-5 inline-flex items-center gap-2 text-[#d6b17c] transition-all duration-300 hover:gap-3 hover:text-white"
+                >
+                  Get Directions
+                  <ArrowUpRight
+                    size={17}
+                    aria-hidden="true"
+                  />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* WHY CHOOSE US */}
+          <div>
+            <h2 className="mb-8 font-serif text-[30px] sm:text-[33px]">
+              Why Choose Us
+            </h2>
+
+            <ul className="space-y-5">
+              {benefits.map((benefit) => (
+                <li
+                  key={benefit}
+                  className="flex items-start gap-3 text-[15px] leading-7 text-white/85"
+                >
+                  <Check
+                    size={20}
+                    className="mt-1 shrink-0 text-[#d6b17c]"
+                    aria-hidden="true"
+                  />
+                  {benefit}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* SOCIAL MEDIA */}
+          <div>
+            <h2 className="mb-8 font-serif text-[30px] sm:text-[33px]">
+              Follow Us :
+            </h2>
+
+            <div className="flex flex-wrap gap-3">
+              {socials.map((social) => {
+                const Icon = social.icon;
+
+                const style =
+                  "group flex h-[55px] w-[55px] items-center " +
+                  "justify-center bg-white text-[#008f87] " +
+                  "transition-all duration-300 " +
+                  "hover:-translate-y-1 hover:bg-[#d6a859] " +
+                  "hover:text-white hover:shadow-lg";
+
+                const icon = (
+                  <Icon
+                    size={23}
+                    strokeWidth={1.8}
+                    aria-hidden="true"
+                  />
+                );
+
+                return social.url ? (
+                  <a
+                    key={social.name}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.name}
+                    title={social.name}
+                    className={style}
+                  >
+                    {icon}
+                  </a>
+                ) : (
+                  <span
+                    key={social.name}
+                    title={`${social.name} profile coming soon`}
+                    aria-label={`${social.name} profile coming soon`}
+                    className={`${style} cursor-default`}
+                  >
+                    {icon}
+                  </span>
+                );
+              })}
+            </div>
+
+            <p className="mt-8 text-[15px] leading-7 text-white/75">
+              Follow Xclusive Apartment for updates,
+              beautiful spaces, and accommodation news.
+            </p>
+          </div>
+        </div>
+
+        <div className="border-t border-white/20" />
+
+        <div className="flex flex-col gap-5 py-10 text-[15px] text-white/85 sm:flex-row sm:items-center sm:justify-between">
+          <p>
+            © 2026 Xclusive Apartment.
+            All rights reserved.
+          </p>
+
+          <p>
+            Designed & Developed for{" "}
+            <span className="font-semibold text-[#d6b17c]">
+              Xclusive Apartment
+            </span>
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}

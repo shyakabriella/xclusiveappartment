@@ -1,0 +1,133 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+
+type AboutSectionProps = {
+  images: string[];
+};
+
+export default function AboutSection({
+  images,
+}: AboutSectionProps) {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const node = sectionRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  const firstImage = images[0];
+  const secondImage = images[1] || images[0];
+
+  return (
+    <section
+      ref={sectionRef}
+      id="about"
+      aria-labelledby="about-heading"
+      className="overflow-hidden bg-white pt-16 pb-4 sm:pt-20 sm:pb-6 lg:pt-24 lg:pb-8"
+    >
+      <div className="mx-auto grid max-w-[1500px] grid-cols-1 items-center gap-14 px-6 sm:px-10 lg:grid-cols-2 lg:gap-12 xl:px-16">
+
+        {/* LEFT CONTENT */}
+        <div
+          className={`transition-all duration-1000 ease-out ${
+            visible
+              ? "translate-y-0 opacity-100"
+              : "translate-y-12 opacity-0"
+          }`}
+        >
+          <h2
+            id="about-heading"
+            className="max-w-2xl font-serif text-[clamp(2.8rem,4.4vw,4.7rem)] leading-[1.12] tracking-[-0.025em] text-[#102232]"
+          >
+            Experience Luxury
+            <span className="block">
+              & Comfort
+            </span>
+          </h2>
+
+          <div className="mt-8 max-w-[680px] space-y-6 text-[15px] leading-[1.9] text-[#68717b] sm:text-[17px]">
+            <p>
+              Welcome to Xclusive Apartment, where comfort,
+              elegance, and exceptional hospitality come
+              together to create a memorable stay.
+            </p>
+
+            <p>
+              Our beautifully designed apartments offer
+              inviting spaces, modern interiors, and
+              thoughtful amenities for guests who value
+              privacy, relaxation, and convenience.
+            </p>
+
+            <p>
+              Whether you are visiting for business,
+              a family holiday, or a peaceful getaway,
+              Xclusive Apartment provides a welcoming
+              environment where every detail is designed
+              with your comfort in mind.
+            </p>
+          </div>
+
+          <Link
+            href="/about"
+            className="mt-12 inline-flex min-h-14 items-center justify-center rounded-[5px] bg-[#008f87] px-9 text-xs font-semibold uppercase tracking-[0.25em] text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#006d68] hover:shadow-lg"
+          >
+            MORE ABOUT US
+          </Link>
+        </div>
+
+        {/* RIGHT OVERLAPPING IMAGE COMPOSITION */}
+        <div
+          className={`relative mx-auto h-[440px] w-full max-w-[640px] transition-all delay-150 duration-1000 ease-out sm:h-[580px] lg:h-[670px] ${
+            visible
+              ? "translate-x-0 opacity-100"
+              : "translate-x-12 opacity-0"
+          }`}
+        >
+          {secondImage && (
+            <div className="absolute right-0 top-0 h-[90%] w-[66%] overflow-hidden">
+              <Image
+                src={secondImage}
+                alt="Elegant interior at Xclusive Apartment"
+                fill
+                sizes="(max-width: 1024px) 60vw, 35vw"
+                className="object-cover transition-transform duration-700 hover:scale-105"
+              />
+            </div>
+          )}
+
+          {firstImage && (
+            <div className="absolute bottom-[9%] left-0 z-10 h-[78%] w-[67%] border-[12px] border-white bg-white shadow-sm sm:border-[20px]">
+              <div className="relative h-full w-full overflow-hidden">
+                <Image
+                  src={firstImage}
+                  alt="Beautiful apartment accommodation at Xclusive Apartment"
+                  fill
+                  sizes="(max-width: 1024px) 60vw, 35vw"
+                  className="object-cover transition-transform duration-700 hover:scale-105"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
